@@ -2,7 +2,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Grid from "@mui/material/Grid";
 import WordCard from './WordCard';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 
 function App() {
@@ -20,6 +20,16 @@ function App() {
   const [selected, setSelected] = useState([]); 
   // all the cards that have been found (also flipped)
   const [found, setFound] = useState([]);
+  const [words, setWords] = useState([]);
+
+  useEffect(() => {
+    let wordList = [];
+    wordPairs.forEach((v, i) => {
+      wordList.push({ id: v.id, word: v.targetLang })
+      wordList.push({ id: v.id, word: v.translation })
+    })
+    setWords(wordList)
+  }, [])
 
   const handleSelect = (word, pairId) => {
     const currSelected = [...selected, word]
@@ -34,18 +44,12 @@ function App() {
     }
   }
 
-  const cardItems = () => wordPairs.reduce((prev, curr) => {
+  const cardItems = () => words.reduce((prev, curr) => {
     prev.push(
       <WordCard 
-        word={curr.targetLang} 
-        isSelected={selected.find(elem => elem === curr.targetLang) ? true : false}
-        handleSelect={() => handleSelect(curr.targetLang, curr.id)} 
-      />)
-    prev.push(
-      <WordCard 
-        word={curr.translation} 
-        isSelected={selected.find(elem => elem === curr.translation) ? true : false}
-        handleSelect={() => handleSelect(curr.translation, curr.id)}
+        word={curr.word} 
+        isSelected={selected.find(elem => elem === curr.word) ? true : false}
+        handleSelect={() => handleSelect(curr.word, curr.id)}
       />)
     return prev
   }, []).map((v, i) => <Grid key={i} item md={3}>{v}</Grid>)
