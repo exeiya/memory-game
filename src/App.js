@@ -16,9 +16,8 @@ function App() {
     { id: "7", targetLang: "개", translation: "a dog" },
     { id: "8", targetLang: "햄스터", translation: "a hamster" },
   ]);
-  // currently selected (flipped) cards
+  
   const [selected, setSelected] = useState([]); 
-  // all the cards that have been found (also flipped)
   const [found, setFound] = useState([]);
   const [words, setWords] = useState([]);
 
@@ -31,25 +30,31 @@ function App() {
     setWords(wordList)
   }, [])
 
-  const handleSelect = (word, pairId) => {
-    const currSelected = [...selected, word]
-    console.log('clicked', word)
+  const handleSelect = (item) => {
+    const currSelected = [...selected, item]
+    console.log('clicked', item)
     if (currSelected.length < 2) {
       setSelected(currSelected)
     } else if (currSelected.length === 2) {
       setSelected(currSelected)
-      setTimeout(() => setSelected([]), 1000)
+      if (currSelected[0].id === currSelected[1].id) {
+        const currFound = [...found, currSelected[0], currSelected[1]]
+        setFound(currFound)
+      }
+      setTimeout(() => setSelected([]), 700)
     } else {
       console.log("you can only select 2 cards at a time")
     }
   }
 
+  const isCardOpen = (word) => (selected.find(elem => elem.word === word) || found.find(elem => elem.word === word)) ? true : false
+
   const cardItems = () => words.reduce((prev, curr) => {
     prev.push(
       <WordCard 
         word={curr.word} 
-        isSelected={selected.find(elem => elem === curr.word) ? true : false}
-        handleSelect={() => handleSelect(curr.word, curr.id)}
+        isSelected={isCardOpen(curr.word)}
+        handleSelect={() => handleSelect(curr)}
       />)
     return prev
   }, []).map((v, i) => <Grid key={i} item md={3}>{v}</Grid>)
