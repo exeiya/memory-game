@@ -4,7 +4,7 @@ import CardContent from '@mui/material/CardContent';
 import styled from '@emotion/styled';
 import { css } from '@mui/material';
 import { CardActionArea } from '@mui/material';
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const FlipCardContainer = styled.div`
   display: flex;
@@ -61,18 +61,16 @@ const BackgroundSquare = styled.div`
   position: relative;
 `
 
-function WordCard({word}) {
-  const [flipped, setFlipped] = useState(false);
-
+function WordCard({word, isSelected, handleSelect}) {
   return (
     <FlipCardContainer>
-      <FlipCardInner className={flipped ? "flipped" : ""}>
-        <CardFront onClick={() => setFlipped(!flipped)}>
+      <FlipCardInner className={isSelected ? "" : "flipped"}>
+        <CardFront>
             <CardContent sx={{ margin: "auto", position: "relative", textAlign: "center"}}>
               <Typography variant="h5">{word}</Typography>
             </CardContent>
         </CardFront>
-        <CardBack onClick={() => setFlipped(!flipped)}>
+        <CardBack onClick={handleSelect}>
           <CardActionArea>
             <BackgroundSquare />
           </CardActionArea>
