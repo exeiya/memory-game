@@ -1,7 +1,9 @@
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Grid from "@mui/material/Grid";
+
 import WordCard from './WordCard';
+import WinDialog from './WinDialog';
 import { useState, useEffect } from 'react';
 
 
@@ -20,6 +22,7 @@ function App() {
   const [selected, setSelected] = useState([]); 
   const [found, setFound] = useState([]);
   const [words, setWords] = useState([]);
+  const [gameFinished, setGameFinished] = useState(false)
 
   useEffect(() => {
     let wordList = [];
@@ -40,11 +43,19 @@ function App() {
       if (currSelected[0].id === currSelected[1].id) {
         const currFound = [...found, currSelected[0], currSelected[1]]
         setFound(currFound)
+        if (currFound.length === words.length) {
+          console.log("all pairs found!")
+          setGameFinished(true)
+        }
       }
       setTimeout(() => setSelected([]), 700)
-    } else {
-      console.log("you can only select 2 cards at a time")
     }
+  }
+
+  const startNewGame = () => {
+    setGameFinished(false)
+    setSelected([])
+    setFound([])
   }
 
   const isCardOpen = (word) => (selected.find(elem => elem.word === word) || found.find(elem => elem.word === word)) ? true : false
@@ -63,6 +74,7 @@ function App() {
     <div className="App">
       <Typography variant="h5">Memory Game</Typography>
       <Container style={{ height: 900, maxWidth: 900}}>
+        <WinDialog open={gameFinished} handleNewGame={startNewGame} handleClose={() => setGameFinished(false)}/>
         <Grid sx={{height: '100%'}} container columns={{ md: 12 }} spacing={1} justifyContent="center">
           {cardItems()}
         </Grid>

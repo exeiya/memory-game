@@ -4,7 +4,6 @@ import CardContent from '@mui/material/CardContent';
 import styled from '@emotion/styled';
 import { css } from '@mui/material';
 import { CardActionArea } from '@mui/material';
-import { useEffect, useState } from 'react'
 
 const FlipCardContainer = styled.div`
   display: flex;
@@ -43,7 +42,7 @@ const CardBack = styled(Card)`
 const FlipCardInner = styled.div`
   flex: 1;
   display: flex;
-  transition: transform 500ms;
+  transition: transform 400ms;
   transform-style: preserve-3d;
 
   &.flipped {
