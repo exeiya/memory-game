@@ -50,6 +50,19 @@ const FlipCardInner = styled.div`
   }
 `
 
+const CardFrontContent = styled(CardContent)`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  &.found {
+    color: #6bc2ff;
+    box-shadow: inset 0 0 4px 1px #6bc2ff;
+    background: #b8e2ff;
+  }
+`
+
 // Simply to give some texture for the back of a card
 const BackgroundSquare = styled.div`
   height: 90%;
@@ -60,14 +73,16 @@ const BackgroundSquare = styled.div`
   position: relative;
 `
 
-function WordCard({word, isSelected, handleSelect}) {
+function WordCard({word, isSelected, isFound, handleSelect}) {
+  console.log(word, isSelected, isFound)
+
   return (
     <FlipCardContainer>
-      <FlipCardInner className={isSelected ? "" : "flipped"}>
+      <FlipCardInner className={isSelected || isFound ? "" : "flipped"}>
         <CardFront>
-            <CardContent sx={{ margin: "auto", position: "relative", textAlign: "center"}}>
+            <CardFrontContent className={isFound ? "found" : ""}>
               <Typography variant="h5">{word}</Typography>
-            </CardContent>
+            </CardFrontContent>
         </CardFront>
         <CardBack onClick={handleSelect}>
           <CardActionArea>

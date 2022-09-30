@@ -58,13 +58,12 @@ function App() {
     setFound([])
   }
 
-  const isCardOpen = (word) => (selected.find(elem => elem.word === word) || found.find(elem => elem.word === word)) ? true : false
-
   const cardItems = () => words.reduce((prev, curr) => {
     prev.push(
       <WordCard 
         word={curr.word} 
-        isSelected={isCardOpen(curr.word)}
+        isSelected={selected.find(elem => elem.word === curr.word) ? true : false}
+        isFound={found.find(elem => elem.word === curr.word) ? true : false}
         handleSelect={() => handleSelect(curr)}
       />)
     return prev
