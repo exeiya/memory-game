@@ -30,8 +30,23 @@ function App() {
       wordList.push({ id: v.id, word: v.targetLang })
       wordList.push({ id: v.id, word: v.translation })
     })
+    wordList = shuffleWords(wordList)
     setWords(wordList)
   }, [])
+
+  const shuffleWords = (arr) => {
+    let remainingWordsAmount = arr.length
+    let unshuffledWord, currentLastWord
+
+    while (remainingWordsAmount) {
+      unshuffledWord = Math.floor(Math.random() * remainingWordsAmount--)
+      currentLastWord = arr[remainingWordsAmount]
+      arr[remainingWordsAmount] = arr[unshuffledWord]
+      arr[unshuffledWord] = currentLastWord
+    }
+
+    return arr
+  }
 
   const handleSelect = (item) => {
     const currSelected = [...selected, item]
@@ -56,6 +71,7 @@ function App() {
     setGameFinished(false)
     setSelected([])
     setFound([])
+    setWords(shuffleWords(words))
   }
 
   const cardItems = () => words.reduce((prev, curr) => {
