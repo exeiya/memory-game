@@ -1,28 +1,26 @@
-import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Grid from "@mui/material/Grid";
-
 import WordCard from './WordCard';
 import WinDialog from './WinDialog';
 import { useState, useEffect } from 'react';
 
+const wordPairs = [
+  { id: "1", targetLang: "반려동물", translation: "a pet" },
+  { id: "2", targetLang: "강아지", translation: "a puppy" },
+  { id: "3", targetLang: "고양이", translation: "a cat" },
+  { id: "4", targetLang: "물고기", translation: "a fish" },
+  { id: "5", targetLang: "토끼", translation: "a rabbit" },
+  { id: "6", targetLang: "새", translation: "a bird" },
+  { id: "7", targetLang: "개", translation: "a dog" },
+  { id: "8", targetLang: "햄스터", translation: "a hamster" },
+]
 
 function App() {
-  const [wordPairs, setWordPairs] = useState([
-    { id: "1", targetLang: "반려동물", translation: "a pet" },
-    { id: "2", targetLang: "강아지", translation: "a puppy" },
-    { id: "3", targetLang: "고양이", translation: "a cat" },
-    { id: "4", targetLang: "물고기", translation: "a fish" },
-    { id: "5", targetLang: "토끼", translation: "a rabbit" },
-    { id: "6", targetLang: "새", translation: "a bird" },
-    { id: "7", targetLang: "개", translation: "a dog" },
-    { id: "8", targetLang: "햄스터", translation: "a hamster" },
-  ]);
-  
   const [selected, setSelected] = useState([]); 
   const [found, setFound] = useState([]);
   const [words, setWords] = useState([]);
   const [gameFinished, setGameFinished] = useState(false)
+  const [newGame, setNewGame] = useState(false)
 
   useEffect(() => {
     let wordList = [];
@@ -34,7 +32,20 @@ function App() {
     setWords(wordList)
   }, [])
 
-  const shuffleWords = (arr) => {
+  useEffect(() => {
+    if (newGame) {
+      setTimeout(() => {
+        setWords(shuffleWords(words))
+      }, 400)
+      setNewGame(false)
+      setSelected([])
+      setFound([])
+      setGameFinished(false)
+    }
+  }, [words, newGame])
+
+  const shuffleWords = (array) => {
+    let arr = [...array]
     let remainingWordsAmount = arr.length
     let unshuffledWord, currentLastWord
 
@@ -67,13 +78,6 @@ function App() {
     }
   }
 
-  const startNewGame = () => {
-    setGameFinished(false)
-    setSelected([])
-    setFound([])
-    setWords(shuffleWords(words))
-  }
-
   const cardItems = () => words.reduce((prev, curr) => {
     prev.push(
       <WordCard 
@@ -83,14 +87,13 @@ function App() {
         handleSelect={() => handleSelect(curr)}
       />)
     return prev
-  }, []).map((v, i) => <Grid key={i} item md={3}>{v}</Grid>)
+  }, []).map((v, i) => <Grid key={i} item md={2}>{v}</Grid>)
 
   return (
     <div className="App">
-      <Typography variant="h5">Memory Game</Typography>
-      <Container style={{ height: 900, maxWidth: 900}}>
-        <WinDialog open={gameFinished} handleNewGame={startNewGame} handleClose={() => setGameFinished(false)}/>
-        <Grid sx={{height: '100%'}} container columns={{ md: 12 }} spacing={1} justifyContent="center">
+      <Container style={{ maxHeight: 700, maxWidth: 900}}>
+        <WinDialog open={gameFinished} handleNewGame={() => setNewGame(!newGame)} handleClose={() => setGameFinished(false)}/>
+        <Grid sx={{height: 720}} container columns={{ md: 10 }} spacing={0.5} justifyContent="space-evenly" alignItems="center">
           {cardItems()}
         </Grid>
       </Container>

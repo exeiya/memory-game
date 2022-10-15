@@ -7,8 +7,8 @@ import { CardActionArea } from '@mui/material';
 
 const FlipCardContainer = styled.div`
   display: flex;
-  width: 200px; 
-  height: 200px;
+  width: 150px;
+  height: 150px;
   position: relative;
   -webkit-perspective: 1000px;
   perspective: 1000px;
@@ -61,6 +61,10 @@ const CardFrontContent = styled(CardContent)`
     box-shadow: inset 0 0 4px 1px #6bc2ff;
     background: #b8e2ff;
   }
+
+  &:last-child {
+    padding-bottom: 16px;
+  }
 `
 
 // Simply to give some texture for the back of a card
@@ -74,7 +78,7 @@ const BackgroundSquare = styled.div`
 `
 
 function WordCard({word, isSelected, isFound, handleSelect}) {
-  console.log(word, isSelected, isFound)
+  //console.log(word, isSelected, isFound)
 
   return (
     <FlipCardContainer>
