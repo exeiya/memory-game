@@ -1,7 +1,9 @@
 import Container from '@mui/material/Container';
 import Grid from "@mui/material/Grid";
+import Drawer from "@mui/material/Drawer"
 import WordCard from './WordCard';
 import WinDialog from './WinDialog';
+import SettingsMenu from './SettingsMenu';
 import { useState, useEffect } from 'react';
 
 const wordPairs = [
@@ -91,6 +93,16 @@ function App() {
 
   return (
     <div className="App">
+      <Drawer variant="permanent" anchor="left" sx={{
+        width: "250px",
+        flexShrink: 0,
+        '& .MuiDrawer-paper': {
+          width: "250px",
+          boxSizing: 'border-box',
+        },
+      }}>
+        <SettingsMenu />
+      </Drawer>
       <Container style={{ maxHeight: 700, maxWidth: 900}}>
         <WinDialog open={gameFinished} handleNewGame={() => setNewGame(!newGame)} handleClose={() => setGameFinished(false)}/>
         <Grid sx={{height: 720}} container columns={{ md: 10 }} spacing={0.5} justifyContent="space-evenly" alignItems="center">
