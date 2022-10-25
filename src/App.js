@@ -5,6 +5,7 @@ import { Typography } from '@mui/material';
 import WordCard from './WordCard';
 import WinDialog from './WinDialog';
 import SettingsMenu from './SettingsMenu';
+import ScoreMenu from './ScoreMenu';
 import { useState, useEffect } from 'react';
 import bgpicture from './assets/tic-tac-toe.png';
 import styled from '@emotion/styled';
@@ -137,6 +138,7 @@ function App() {
         <TitleBackground>
           <TitleText variant="h5" gutterBottom align="center">Memory Game</TitleText>
         </TitleBackground>
+        <ScoreMenu handleNewGame={() => setNewGame(!newGame)} />
         <SettingsMenu />
       </Drawer>
       <Container style={{ maxHeight: 700, maxWidth: 900}}>
