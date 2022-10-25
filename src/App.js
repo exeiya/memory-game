@@ -121,17 +121,17 @@ function App() {
         handleSelect={() => handleSelect(curr)}
       />)
     return prev
-  }, []).map((v, i) => <Grid key={i} item md={2}>{v}</Grid>)
+  }, []).map((v, i) => <Grid key={i} item lg={2} md={2} sm={1}>{v}</Grid>)
 
   return (
-    <div className="App" style={{ backgroundImage: `url(${bgpicture})`, height:'100vh' }}>
+    <div className="App" style={{ backgroundImage: `url(${bgpicture})`, height:'100vh', display: "flex"}}>
       <Drawer variant="permanent" anchor="left" sx={{
         width: "250px",
         flexShrink: 0,
         '& .MuiDrawer-paper': {
           width: "250px",
           boxSizing: 'border-box',
-          background: "linear-gradient(150deg, #020024 0%, #5dabf4 50%, #00d4ff 100%)",
+          background: "linear-gradient(171deg, #020024 0%, #5dabf4 50%, #00d4ff 100%)",
           color: "white",
         },
       }}>
@@ -141,9 +141,9 @@ function App() {
         <ScoreMenu handleNewGame={() => setNewGame(!newGame)} />
         <SettingsMenu />
       </Drawer>
-      <Container style={{ maxHeight: 700, maxWidth: 900}}>
+      <Container style={{ maxHeight: 1000, maxWidth: 1200}}>
         <WinDialog open={gameFinished} handleNewGame={() => setNewGame(!newGame)} handleClose={() => setGameFinished(false)}/>
-        <Grid sx={{height: 720}} container columns={{ md: 10 }} spacing={0.5} justifyContent="space-evenly" alignItems="center">
+        <Grid sx={{height: 720, position: "relative"}} container columns={{ lg: 12, md: 8, sm: 3 }} spacing={0.5} justifyContent="center" alignItems="center">
           {cardItems()}
         </Grid>
       </Container>
