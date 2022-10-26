@@ -1,12 +1,10 @@
-import Container from '@mui/material/Container';
-import Grid from "@mui/material/Grid";
-import Drawer from "@mui/material/Drawer"
-import { Typography } from '@mui/material';
+import { useState, useEffect } from 'react';
+import { Container, Grid, Drawer, Button, Typography } from '@mui/material';
+import RestartAltRoundedIcon from '@mui/icons-material/RestartAltRounded';
 import WordCard from './WordCard';
 import WinDialog from './WinDialog';
 import SettingsMenu from './SettingsMenu';
-import ScoreMenu from './ScoreMenu';
-import { useState, useEffect } from 'react';
+import ScoreBoard from './ScoreBoard';
 import bgpicture from './assets/tic-tac-toe.png';
 import styled from '@emotion/styled';
 
@@ -55,6 +53,8 @@ function App() {
   const [words, setWords] = useState([]);
   const [gameFinished, setGameFinished] = useState(false)
   const [newGame, setNewGame] = useState(false)
+  const [score, setScore] = useState(0)
+  const [highscore, setHighscore] = useState()
 
   useEffect(() => {
     let wordList = [];
@@ -64,6 +64,11 @@ function App() {
     })
     wordList = shuffleWords(wordList)
     setWords(wordList)
+    setScore(0)
+    const existingHighscore = window.localStorage.getItem('highscore')
+    if (existingHighscore) {
+      setHighscore(parseInt(existingHighscore))
+    }
   }, [])
 
   useEffect(() => {
@@ -75,6 +80,7 @@ function App() {
       setSelected([])
       setFound([])
       setGameFinished(false)
+      setScore(0)
     }
   }, [words, newGame])
 
@@ -95,17 +101,24 @@ function App() {
 
   const handleSelect = (item) => {
     const currSelected = [...selected, item]
+    const newScore = score + 1
     console.log('clicked', item)
     if (currSelected.length < 2) {
       setSelected(currSelected)
+      setScore(newScore)
     } else if (currSelected.length === 2) {
       setSelected(currSelected)
+      setScore(newScore)
       if (currSelected[0].id === currSelected[1].id) {
         const currFound = [...found, currSelected[0], currSelected[1]]
         setFound(currFound)
         if (currFound.length === words.length) {
           console.log("all pairs found!")
           setGameFinished(true)
+          if (!highscore || (newScore < highscore)) {
+            setHighscore(newScore)
+            window.localStorage.setItem("highscore", newScore)
+          }
         }
       }
       setTimeout(() => setSelected([]), 700)
@@ -138,7 +151,14 @@ function App() {
         <TitleBackground>
           <TitleText variant="h5" gutterBottom align="center">Memory Game</TitleText>
         </TitleBackground>
-        <ScoreMenu handleNewGame={() => setNewGame(!newGame)} />
+        <Button 
+          style={{ alignSelf: "center", marginBottom: "8px" }}
+          variant="contained" 
+          onClick={() => setNewGame(!newGame)}
+          startIcon={<RestartAltRoundedIcon />}>
+            New game
+        </Button>
+        <ScoreBoard score={score} highscore={highscore} />
         <SettingsMenu />
       </Drawer>
       <Container style={{ maxHeight: 1000, maxWidth: 1200}}>
