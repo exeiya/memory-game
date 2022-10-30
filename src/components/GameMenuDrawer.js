@@ -1,8 +1,6 @@
 import { Drawer, Button, Typography } from "@mui/material";
 import styled from "@emotion/styled";
 import RestartAltRoundedIcon from '@mui/icons-material/RestartAltRounded';
-import ScoreBoard from "./ScoreBoard";
-import SettingsMenu from "./SettingsMenu";
 
 const TitleBackground = styled.div`
   position: relative;
@@ -32,7 +30,7 @@ const TitleText = styled(Typography)`
   text-shadow: 1px 1px 4px #001529;
 `
 
-const GameMenuDrawer = ({ setNewGame, score, highscore }) => {
+const GameMenuDrawer = ({ setNewGame, children }) => {
   return (
     <Drawer variant="permanent" anchor="left" sx={{
       width: "250px",
@@ -54,8 +52,7 @@ const GameMenuDrawer = ({ setNewGame, score, highscore }) => {
         startIcon={<RestartAltRoundedIcon />}>
           New game
       </Button>
-      <ScoreBoard score={score} highscore={highscore} />
-      <SettingsMenu />
+      {children}
     </Drawer>
   )
 }
