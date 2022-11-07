@@ -28,7 +28,7 @@ const createWordPairs = (deckWords) => {
   let words = []
   deckWords.forEach(word => {
     words.push({ id: word.id, word: word.targetLang })
-    words.push({ id: word.id, word: word.translation })
+    words.push({ id: word.id, word: word.translationLang })
   })
   return words
 }

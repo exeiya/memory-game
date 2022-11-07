@@ -1,0 +1,1 @@
+{"version":3,"file":"static/css/main.6f74c818.css","mappings":"AAAA,KAEE,opKAA6C,CAD7C,QAEF","sources":["index.css"],"sourcesContent":["body {\r\n  margin: 0px;\r\n  background-image: url(assets/tic-tac-toe.png);\r\n}"],"names":[],"sourceRoot":""}
