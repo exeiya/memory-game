@@ -1,1 +1,6 @@
-/server/.env
+Dockerfile
+.dockerignore
+node_modules
+./client/node_modules
+.git
+.env

@@ -6,6 +6,8 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
+    "build:ui": "cd ./client && npm run build",
+    "build:production": "cd ./client && npm install && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Krista Lindholm",
@@ -19,5 +21,8 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.20"
+  },
+  "nodemonConfig": {
+    "ignore": ["**/client/**"]
   }
 }

@@ -4,7 +4,8 @@ const app = express()
 const morgan = require("morgan")
 const cors = require("cors")
 const mongoose = require("mongoose")
-const Deck = require("./models/deck")
+const Deck = require("./server/models/deck")
+const path = require("path")
 
 morgan.token("body", (req) => JSON.stringify(req.body))
 
@@ -18,7 +19,8 @@ mongoose.connect(process.env.MONGODB_URI)
 app.use(cors())
 app.use(express.json())
 app.use(morgan(":method :url :status :response-time ms - :res[content-length] :body"))
-app.use(express.static("build"))
+
+app.use(express.static(path.resolve(__dirname, "./client/build")))
 
 app.get("/api/decks", (request, response) => {
   Deck.find({}).then(decks => {

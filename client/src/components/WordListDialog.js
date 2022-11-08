@@ -21,7 +21,7 @@ const WordListDialog = ({ show, close, deck }) => {
               {content.map((pair, i) => 
                 <TableRow key={i}>
                   <TableCell>{pair.targetLang}</TableCell>
-                  <TableCell>{pair.translation}</TableCell>
+                  <TableCell>{pair.translationLang}</TableCell>
                 </TableRow>
               )}
             </TableBody>
