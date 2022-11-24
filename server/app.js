@@ -5,6 +5,7 @@ const cors = require("cors")
 const mongoose = require("mongoose")
 const path = require("path")
 const decksRouter = require("./controllers/decks")
+const loginRouter = require("./controllers/login")
 
 morgan.token("body", (req) => JSON.stringify(req.body))
 
@@ -22,6 +23,7 @@ app.use(morgan(":method :url :status :response-time ms - :res[content-length] :b
 app.use(express.static(path.resolve(__dirname, "./client/build")))
 
 app.use("/api/decks", decksRouter)
+app.use("/api/login", loginRouter)
 
 const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: "unknown endpoint" })
