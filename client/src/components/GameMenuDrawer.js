@@ -34,6 +34,7 @@ const GameMenuDrawer = ({ setNewGame, children }) => {
   return (
     <Drawer variant="permanent" anchor="left" sx={{
       width: "250px",
+      height: "100%",
       flexShrink: 0,
       '& .MuiDrawer-paper': {
         width: "250px",

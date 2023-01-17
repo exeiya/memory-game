@@ -7,7 +7,10 @@ import ScoreBoard from './components/ScoreBoard';
 import CardGrid from './components/CardGrid';
 import WordListDialog from './components/WordListDialog';
 import deckService from './services/deckService';
-
+import UserMenu from "./components/UserMenu";
+import LoginDialog from './components/LoginDialog';
+import { setInitialLogin } from "./reducers/loginReducer";
+import { useDispatch } from 'react-redux';
 
 const shuffleWords = (array) => {
   let arr = [...array]
@@ -44,8 +47,11 @@ function App() {
   const [decks, setDecks] = useState([])
   const [currentDeck, setCurrentDeck] = useState()
   const [showWordList, setShowWordList] = useState(false)
+  const [showLogin, setShowLogin] = useState(false)
+  const dispatch = useDispatch()
 
   useEffect(() => {
+    dispatch(setInitialLogin())
     const fetchDecks = async () => {
       const decks = await deckService.getAll()
       setDecks(decks)
@@ -121,6 +127,7 @@ function App() {
           currentDeck={currentDeck} 
           handleDeckChange={(event) => handleDeckChange(event.target.value)} 
           showWords={() => setShowWordList(!showWordList)} />
+        <UserMenu handleShowLogin={() => setShowLogin(!showLogin)} />
       </GameMenuDrawer>
       <Container style={{ maxHeight: 1000, maxWidth: 1200}}>
         <WinDialog open={gameFinished} handleNewGame={() => setNewGame(!newGame)} handleClose={() => setGameFinished(false)}/>
@@ -129,6 +136,7 @@ function App() {
           show={showWordList} 
           close={() => setShowWordList(!showWordList)} 
           deck={decks.find(deck => deck.title === currentDeck)} />
+        <LoginDialog show={showLogin} handleShow={() => setShowLogin(!showLogin)}/>
       </Container>
     </div>
   );
